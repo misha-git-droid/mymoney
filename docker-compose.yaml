@@ -1,0 +1,32 @@
+services:
+  app:
+    build: .
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - ${APPLICATION_PORT_ON_DOCKER_HOST}:${APPLICATION_PORT_ON_CONTAINER}
+
+    working_dir: /app
+
+  db:
+    image: postgres:latest
+    env_file:
+      - .env
+    ports:
+      - ${DB_PORT_ON_DOCKER_HOST}:${DB_PORT_ON_CONTAINER}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "${POSTGRES_USER}", "-d", "${POSTGRES_DB}" ]
+      interval: 10s
+      retries: 5
+      start_period: 5s
+      timeout: 5s
+
+volumes:
+  postgres_data:
