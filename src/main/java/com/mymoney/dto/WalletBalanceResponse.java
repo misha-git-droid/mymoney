@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 @Data
 @AllArgsConstructor
-public class ResponseData {
+public class WalletBalanceResponse {
 
     private Long walletId;
     private BigDecimal balance;

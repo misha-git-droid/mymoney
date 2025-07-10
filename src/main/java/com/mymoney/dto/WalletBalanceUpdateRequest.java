@@ -6,7 +6,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 @Data
-public class RequestData {
+public class WalletBalanceUpdateRequest {
 
     private Long walletId;
     private OperationType operationType;

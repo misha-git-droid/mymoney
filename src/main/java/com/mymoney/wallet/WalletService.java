@@ -1,7 +1,7 @@
 package com.mymoney.wallet;
 
-import com.mymoney.dto.RequestData;
-import com.mymoney.dto.ResponseData;
+import com.mymoney.dto.WalletBalanceResponse;
+import com.mymoney.dto.WalletBalanceUpdateRequest;
 import com.mymoney.wallet.exception.CustomException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ public class WalletService {
 
     private final WalletRepository walletRepository;
 
-    public ResponseData changeBalance(RequestData request) {
+    public WalletBalanceResponse changeBalance(WalletBalanceUpdateRequest request) {
 
         Long walletId = request.getWalletId();
 
@@ -36,7 +36,7 @@ public class WalletService {
 
         walletRepository.save(wallet);
 
-        return new ResponseData(wallet.getId(), wallet.getBalance());
+        return new WalletBalanceResponse(wallet.getId(), wallet.getBalance());
     }
 
     public BigDecimal getBalanceById(Long walletId) {

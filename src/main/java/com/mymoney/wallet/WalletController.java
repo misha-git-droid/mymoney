@@ -1,33 +1,24 @@
 package com.mymoney.wallet;
 
-import com.mymoney.dto.RequestData;
-import com.mymoney.dto.ResponseData;
+import com.mymoney.dto.WalletBalanceResponse;
+import com.mymoney.dto.WalletBalanceUpdateRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.graphql.GraphQlProperties;
-import org.springframework.boot.autoconfigure.security.oauth2.client.ConditionalOnOAuth2ClientRegistrationProperties;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/")
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class WalletController {
 
-    @Autowired
     private final WalletService walletService;
 
-    @PostMapping("/create")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Wallet wallet() {
-
+    public Wallet createWallet() {
         return walletService.createWallet();
-
     }
 
     @DeleteMapping("/{walletId}")
@@ -40,19 +31,16 @@ public class WalletController {
 
 
     @PostMapping("/wallet")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseData updateBalance(
-            @RequestBody RequestData request
+    public WalletBalanceResponse updateBalance(
+            @RequestBody WalletBalanceUpdateRequest request
     ) {
         return walletService.changeBalance(request);
     }
 
-    @GetMapping("/{walletId}")
-    public BigDecimal getBalance(
+    @GetMapping("/wallets/{walletId}")
+    public BigDecimal getWalletBalance(
             @PathVariable Long walletId
     ) {
         return walletService.getBalanceById(walletId);
     }
-
-
 }
