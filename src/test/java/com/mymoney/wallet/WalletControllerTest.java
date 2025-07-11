@@ -1,12 +1,10 @@
 package com.mymoney.wallet;
 
 
-import com.mymoney.wallet.exception.CustomException;
+import com.mymoney.wallet.exception.WalletNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Import;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -35,7 +33,7 @@ public class WalletControllerTest {
         when(walletService.getBalanceById(walletId))
                 .thenReturn(balance);
 
-        mockMvc.perform(get("/api/v1/{walletId}", walletId))
+        mockMvc.perform(get("/api/v1/wallets/{walletId}", walletId))
                 .andExpect(status().isOk())
                 .andExpect(content().string("100"));
     }
@@ -46,10 +44,10 @@ public class WalletControllerTest {
         Long walletId = 15000L;
 
         when(walletService.getBalanceById(walletId))
-                .thenThrow(new CustomException("Wallet not found"));
+                .thenThrow(new WalletNotFoundException("Wallet not found"));
 
-        mockMvc.perform(get("/api/v1/{walletId}", walletId))
-                .andExpect(status().isBadRequest());
+        mockMvc.perform(get("/api/v1/wallets/{walletId}", walletId))
+                .andExpect(status().isNotFound());
     }
 
 }

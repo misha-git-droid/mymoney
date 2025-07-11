@@ -2,7 +2,8 @@ package com.mymoney.wallet;
 
 import com.mymoney.dto.WalletBalanceResponse;
 import com.mymoney.dto.WalletBalanceUpdateRequest;
-import com.mymoney.wallet.exception.CustomException;
+import com.mymoney.wallet.exception.InsufficientFundsException;
+import com.mymoney.wallet.exception.WalletNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class WalletService {
             case DEPOSIT -> wallet.getBalance().add(request.getAmount());
             case WITHDRAW -> {
                 if (wallet.getBalance().compareTo(request.getAmount()) < 0) {
-                    throw new CustomException("There are insufficient funds in the wallet");
+                    throw new InsufficientFundsException("There are insufficient funds in the wallet");
                 }
                 yield wallet.getBalance().subtract(request.getAmount());
             }
@@ -63,7 +64,7 @@ public class WalletService {
     public Wallet getWallet(Long id) {
 
         return walletRepository.findById(id).orElseThrow(
-                () -> new CustomException("Wallet not found")
+                () -> new WalletNotFoundException("Wallet not found")
         );
 
     }

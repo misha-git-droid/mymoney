@@ -2,14 +2,17 @@ package com.mymoney.wallet;
 
 import com.mymoney.dto.WalletBalanceResponse;
 import com.mymoney.dto.WalletBalanceUpdateRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 
 @RestController
 @RequestMapping("/api/v1")
+@Validated
 @RequiredArgsConstructor
 public class WalletController {
 
@@ -32,7 +35,7 @@ public class WalletController {
 
     @PostMapping("/wallet")
     public WalletBalanceResponse updateBalance(
-            @RequestBody WalletBalanceUpdateRequest request
+            @Valid @RequestBody WalletBalanceUpdateRequest request
     ) {
         return walletService.changeBalance(request);
     }
