@@ -37,8 +37,8 @@
 
 **Инструкция:**
 ```bash
-git clone https://github.com/your-repo/wallet-service.git
-cd wallet-service
+git clone https://github.com/misha-git-droid/mymoney.git
+cd mymoney
 docker-compose up --build
 ```
 
