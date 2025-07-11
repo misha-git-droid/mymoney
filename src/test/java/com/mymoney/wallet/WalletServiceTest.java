@@ -1,7 +1,7 @@
 package com.mymoney.wallet;
 
 import static org.junit.jupiter.api.Assertions.*;
-import com.mymoney.wallet.exception.CustomException;
+import com.mymoney.wallet.exception.WalletNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -44,7 +44,7 @@ public class WalletServiceTest {
         when(walletRepository.findById(walletId))
                 .thenReturn(Optional.empty());
 
-        assertThrows(CustomException.class, () -> {
+        assertThrows(WalletNotFoundException.class, () -> {
             walletService.getBalanceById(walletId);
         });
     }
